@@ -102,67 +102,67 @@ def publisher():
 		angular_vel = Vector3()
 		linear_accel =  Vector3()
 
-		# Update meta data
-		attempts = 0
-		sys_cal = 0
-		temp_c = 0
-		while attempts < 4:
-			try:
-				# Read the calibration status, 0=uncalibrated and 3=fully calibrated.
-				sys_cal, gyro, accel, mag = sensor.get_calibration_status()
-				temp_c = sensor.read_temp()
-				break
-			except Exception as e:
-				rospy.logerr('Failed to read BNO055 calibration stat and temp! %s', e)
-				attempts += 1
-				rospy.sleep(0.01)
+		# # Update meta data
+		# attempts = 0
+		# sys_cal = 0
+		# temp_c = 0
+		# while attempts < 4:
+		# 	try:
+		# 		# Read the calibration status, 0=uncalibrated and 3=fully calibrated.
+		# 		sys_cal, gyro, accel, mag = sensor.get_calibration_status()
+		# 		temp_c = sensor.read_temp()
+		# 		break
+		# 	except Exception as e:
+		# 		rospy.logerr('Failed to read BNO055 calibration stat and temp! %s', e)
+		# 		attempts += 1
+		# 		rospy.sleep(0.01)
 
-		if attempts != 4:
-			info.sysCalibration = sys_cal
-			info.accelCalibration = accel
-			info.gyroCalibration = gyro
-			info.magnoCalibration = mag
-			info.tempC = temp_c
+		# if attempts != 4:
+		# 	info.sysCalibration = sys_cal
+		# 	info.accelCalibration = accel
+		# 	info.gyroCalibration = gyro
+		# 	info.magnoCalibration = mag
+		# 	info.tempC = temp_c
 
-		# Update real data
-		attempts = 0
-		while attempts < 4:
-			try:
-				# Orientation as a quaternion:
-				orientation.x, orientation.y, orientation.z, orientation.w  = sensor.read_quaternion()
+		# # Update real data
+		# attempts = 0
+		# while attempts < 4:
+		# 	try:
+		# 		# Orientation as a quaternion:
+		# 		orientation.x, orientation.y, orientation.z, orientation.w  = sensor.read_quaternion()
 
-				# Gyroscope data (in degrees per second converted to radians per second):
-				gry_x, gry_y, gry_z = sensor.read_gyroscope()
-				angular_vel.x = math.radians(gry_x)
-				angular_vel.y = math.radians(gry_y)
-				angular_vel.z = math.radians(gry_z)
+		# 		# Gyroscope data (in degrees per second converted to radians per second):
+		# 		gry_x, gry_y, gry_z = sensor.read_gyroscope()
+		# 		angular_vel.x = math.radians(gry_x)
+		# 		angular_vel.y = math.radians(gry_y)
+		# 		angular_vel.z = math.radians(gry_z)
 
-				# Linear acceleration data (i.e. acceleration from movement, not gravity--
-    			# returned in meters per second squared):
-				linear_accel.x, linear_accel.y, linear_accel.z = sensor.read_linear_acceleration()
-				heading.data = sensor.read_euler()[0]
-				#print("{},{},{}".format(sensor.read_euler()[0],sensor.read_euler()[1],sensor.read_euler()[2]))  
-				break
-			except Exception as e:
-				rospy.logerr('Failed to read BNO055 data! %s', e)
-				attempts += 1
-				rospy.sleep(0.01)
+		# 		# Linear acceleration data (i.e. acceleration from movement, not gravity--
+    	# 		# returned in meters per second squared):
+		# 		linear_accel.x, linear_accel.y, linear_accel.z = sensor.read_linear_acceleration()
+		# 		heading.data = sensor.read_euler()[0]
+		# 		#print("{},{},{}".format(sensor.read_euler()[0],sensor.read_euler()[1],sensor.read_euler()[2]))  
+		# 		break
+		# 	except Exception as e:
+		# 		rospy.logerr('Failed to read BNO055 data! %s', e)
+		# 		attempts += 1
+		# 		rospy.sleep(0.01)
 
-		if attempts != 4:
-			msg.orientation = orientation
-			msg.orientation_covariance[0] = 0.01 # covariance in x,y,z (3x3)
-			msg.orientation_covariance[4] = 0.01
-			msg.orientation_covariance[8] = 0.01
+		# if attempts != 4:
+		# 	msg.orientation = orientation
+		# 	msg.orientation_covariance[0] = 0.01 # covariance in x,y,z (3x3)
+		# 	msg.orientation_covariance[4] = 0.01
+		# 	msg.orientation_covariance[8] = 0.01
 
-			msg.angular_velocity = angular_vel
-			msg.angular_velocity_covariance[0] = 0.01 # covariance in x,y,z (3x3)
-			msg.angular_velocity_covariance[4] = 0.01
-			msg.angular_velocity_covariance[8] = 0.01
+		# 	msg.angular_velocity = angular_vel
+		# 	msg.angular_velocity_covariance[0] = 0.01 # covariance in x,y,z (3x3)
+		# 	msg.angular_velocity_covariance[4] = 0.01
+		# 	msg.angular_velocity_covariance[8] = 0.01
 
-			msg.linear_acceleration = linear_accel
-			msg.linear_acceleration_covariance[0] = 0.01 # covariance in x,y,z (3x3)
-			msg.linear_acceleration_covariance[4] = 0.01
-			msg.linear_acceleration_covariance[8] = 0.01
+		# 	msg.linear_acceleration = linear_accel
+		# 	msg.linear_acceleration_covariance[0] = 0.01 # covariance in x,y,z (3x3)
+		# 	msg.linear_acceleration_covariance[4] = 0.01
+		# 	msg.linear_acceleration_covariance[8] = 0.01
 
 
 		#update message headers
