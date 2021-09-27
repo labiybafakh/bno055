@@ -57,3 +57,4 @@ If a an input/output error occurs make sure the I2C bus is operational and the s
 
 * https://github.com/adafruit/Adafruit_Python_BNO055
 * https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST_BNO055_DS000_14.pdf
+# bno055

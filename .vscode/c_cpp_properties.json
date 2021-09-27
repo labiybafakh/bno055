@@ -1,0 +1,20 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/ntlab/catkin_ws/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/ntlab/catkin_ws/src/learning_tf2/include/**",
+        "/home/ntlab/catkin_ws/src/ornibibot/include/**",
+        "/home/ntlab/catkin_ws/src/ros_imu_bno055/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}
